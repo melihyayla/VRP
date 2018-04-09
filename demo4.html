@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" id="box"><a-animation attribute="rotation" dur="5000" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation></a-box>
+      
+      <script type="text/javascript">
+        
+       //d3.select("a-scene").append("a-box").attr("position", " 0 2 -2 ").attr("height", "2").attr("width", "1").attr("depth", "0.2").attr("id","box1").attr("color","red");
+
+      // d3.select("#box1").append("a-entity").append("a-animation").attr("attribute","rotation").attr("dur","5000").attr("fill","forwards").attr("to","0 360 0").attr("repeat","indefinite").attr("easing","linear");
+
+
+       d3.select("a-scene").append("a-text").attr("width", 5).attr("value","asjdajsdjasjdjasjdajsdjasjdjasfkjasklfaskfjaslfaskjfaslfjasklfasaskldjaslkdkajsdjlkaskdlasjklfkjas jkflaskl asjkfalks kfaskfk alksfja skfalkfjkla jkasfl kaslkf ajlks asdasdasdas ").attr("lineHeight",25).attr("letterSpacing",5).attr("color","black").attr("position","0 0 -3"); 
+
+
+      </script>
+    </a-scene>
+  </body>
+</html>

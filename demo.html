@@ -1,0 +1,134 @@
+<html>
+  <head>
+    <title>Deneme</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script Src="demo.js"></script>
+  </head>
+  <body>
+    <a-scene>
+
+    <a-assets>
+      <img id="sunimg" src="data/sun.jpg">
+      <img id="mercuryimg" src="data/mercury.jpg">
+      <img id="venusimg" src="data/venus.jpg">
+      <img id="earthimg" src="data/earth3.jpg">
+      <img id="marsimg" src="data/mars.jpg">
+      <img id="jupiterimg" src="data/jupiter.jpg">
+      <img id="saturnimg" src="data/saturn.jpg">
+      <img id="uranusimg" src="data/uranus.jpg">
+      <img id="neptuneimg" src="data/neptune.jpg">
+      <img id="plutoimg" src="data/pluto.png">
+      <img id="moonimg" src="data/moon.jpg">
+      <img id="sring" src="data/sRing.png">
+      <img id="starfield" src="data/starfield.jpg">
+    </a-assets>
+
+    
+      <a-camera><a-cursor color ="red"> </a-cursor></a-camera>
+      <a-entity camera look-controls wasd-controls></a-entity>
+     
+  
+    <script type="text/javascript">
+
+      var planetImages  = ["sun","mercury","venus","earth","mars","jupiter","saturn","uranus","neptune","pluto"] ; 
+      var radius = [20, 2, 3.5, 3.9, 2.7, 12, 11, 7, 6.7, 1.5];
+      var distance = [5.8,5.3,4.1,7.8,15,16,17,20,18];
+      var xPos = [];
+
+      var x = -20;
+
+      for (var i=0; i<10 ;i++){
+
+
+         d3.select("a-scene").append("a-sphere").attr("id",""+planetImages[i]+"obj").attr("radius", radius[i]/4).attr("src","#" + planetImages[i] + "img").attr("position", x+" 2 -8 ").attr("scale","0.60 0.5 0.5").append("a-text").attr("width","20").attr("color","white").attr("position","-1.75 "+((-1)*radius[i]/2)+ " 0").attr("value",planetImages[i].toUpperCase()+"");
+
+         xPos[i] = x;
+
+     if(i<9)
+       x= x+radius[i]/4+(distance[i]/8)+radius[i+1]/4;   
+      
+      }
+
+
+      d3.select("#earthobj").append("a-sphere").attr("id","moonobj").attr("radius", 0.5).attr("src","#moonimg").attr("position", "1 2 -1").attr("scale","0.60 0.5 0.5");
+
+      d3.select("#saturnobj").append("a-ring").attr("radius-outer",3.7).attr("radius-inner",3).attr("src","#sring").attr("rotation","-60 0 0").attr("position","0 0 0").attr("scale","1.25 1.25 1.25").attr("opacity",1);
+       d3.select("#saturnobj").append("a-ring").attr("radius-outer",4.2).attr("radius-inner",4).attr("src","#sring").attr("rotation","-60 0 0").attr("position","0 0 0").attr("scale","1.25 1.25 1.25").attr("metalness",0.5);
+
+      d3.select("#neptuneobj").append("a-ring").attr("radius-outer",2.2).attr("radius-inner",2).attr("src","#neptune").attr("rotation","60 0 0").attr("position","0 0 0").attr("scale","1.25 1.25 1.25").attr("opacity",0.5);
+
+      
+
+      d3.selectAll("a-sphere")
+          .on("mouseenter", moveBox).on("mouseleave",backBox);
+
+
+        function moveBox () {
+          // Select the box
+          var box = d3.select(this);
+          // Setup a transition
+          box.transition()
+             .duration(20000)
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("rotation", function() {
+               // Get current position
+               var currentPosition = box.attr("rotation");  // {"x": 0, "y": 1, "z": 0}
+               // Return an interpolater from current to next position
+               return d3.interpolate(currentPosition, {"x": 30 , "y": 540, "z": 50 } );
+             });
+
+           }
+
+             function backBox () {
+          // Select the box
+          var box = d3.select(this);
+          // Setup a transition
+          box.transition()
+             .duration(1)
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("rotation", function() {
+               // Get current position
+               var currentPosition = box.attr("rotation");  // {"x": 0, "y": 1, "z": 0}
+               // Return an interpolater from current to next position
+               return d3.interpolate(currentPosition, {"x": 0 , "y": 0, "z": 0 } );
+             });
+           }
+
+
+       
+d3.select("moonobj")
+          .on("mouseenter", moveTurn);
+
+        function moveTurn () {
+          // Select the box
+          var turn = d3.select(this);
+          // Setup a transition
+          turn.transition()
+             .duration(209000)
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("rotation", function() {
+               // Get current position
+               var currentPosition = box.attr("rotation");  // {"x": 0, "y": 1, "z": 0}
+               // Return an interpolater from current to next position
+               return d3.interpolate(currentPosition, {"x": 1000, "y": 0, "z": 2000 } );
+             });
+
+           }
+
+       
+
+
+
+
+
+    </script>
+
+     <a-entity light="type: point; color: softyellow; intensity: 1" position="0 5-5"></a-entity>
+
+    <a-sky src="#starfield" material="color:#FFF;shader:flat;src:#starfield" geometry="primitive:sphere;radius:5000;segmentsWidth:64;segmentsHeight:64" scale="-1 1 1"></a-sky>
+    
+
+    </a-scene>
+  </body>
+  </html>

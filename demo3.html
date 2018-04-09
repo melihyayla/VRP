@@ -1,0 +1,91 @@
+<html>
+  <head>
+    <title>Deneme</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="demo.js"></script>
+  </head>
+  <body>
+    <a-scene>
+
+    <a-assets>
+      <img id="sunimg" src="data/sun.jpg">
+      <img id="mercuryimg" src="data/mercury.jpg">
+      <img id="venusimg" src="data/venus.jpg">
+      <img id="earthimg" src="data/earth3.jpg">
+      <img id="marsimg" src="data/mars.jpg">
+      <img id="jupiterimg" src="data/jupiter.jpg">
+      <img id="saturnimg" src="data/saturn.jpg">
+      <img id="uranusimg" src="data/uranus.jpg">
+      <img id="neptuneimg" src="data/neptune.jpg">
+      <img id="plutoimg" src="data/pluto.png">
+      <img id="moonimg" src="data/moon.jpg">
+      <img id="sring" src="data/sRing.png">
+      <img id="starfield" src="data/starfield.jpg">
+    </a-assets>
+
+    
+      <a-camera><a-cursor color ="red"> </a-cursor></a-camera>
+      <a-entity camera look-controls wasd-controls></a-entity>
+    
+    <a-assets>
+    <a-asset-item id="arrow-obj" src ="arrow.obj"></a-asset-item>
+    <a-asset-item id="arrow-mtl" src ="arrow.mtl"></a-asset-item>
+    </a-assets>
+
+    <a-assets>
+    <a-asset-item id="logo-obj" src ="logo.obj"></a-asset-item>
+    <a-asset-item id="logo-mtl" src ="logo.mtl"></a-asset-item>
+    </a-assets>
+
+  
+    <script type="text/javascript">
+
+    var planetImages  = ["mercury","venus", "earth", "mars", "jupiter", "saturn" , "uranus", "neptune" , "pluto"] ; 
+
+    var mercuryInfo= "Average Distance From Sun(AU): 0.387 \n Average Equatorial Radius(km): 2440 \n Mass: 0.055 \n Average Density: 5.43 \n Orbital Period: 87.9 days \n Rotational Period: 58.6 days \n Axis Tilt: 0.0 \n Average Surface Temperature: 700K(day) 100K(night) \n Composition: Rocks, metals \n Known Moons: 0 \n Rings: No";
+  
+    var venusInfo= "Average Distance From Sun(AU): 0.723 \n Average Equatorial Radius(km): 6051 \n Mass: 0.82 \n Average Density: 5.24 \n Orbital Period: 225 days \n Rotational Period: 52.6 days \n Axis Tilt: 177.3 \n Average Surface Temperature: 740K \n Composition: Rocks, metals\n Known Moons: 0\n Rings: No";
+
+    var earthInfo= "Average Distance From Sun(AU): 1 \n Average Equatorial Radius(km): 6378 \n Mass: 1 \n Average Density: 5.52 \n Orbital Period: 1 year \n Rotational Period: 23.93 hours \n Axis Tilt: 23.5 \n Average Surface Temperature: 290K \n Composition: Rocks, metals \n Known Moons: 1 \n Rings: No";
+
+    var marsInfo= "Average Distance From Sun(AU): 1.52 \n Average Equatorial Radius(km): 3397 \n Mass: 0.11 \n Average Density: 3.93 \n Orbital Period: 1.88 years \n Rotational Period: 24.6 hours \n Axis Tilt: 25.2 \n Average Surface Temperature: 220K \n Composition: Rocks, metals \n Known Moons: 2 \n Rings: No";
+
+    var jupiterInfo= "Average Distance From Sun(AU): 5.20 \n Average Equatorial Radius(km): 71.492 \n Mass: 318 \n Average Density: 1.33 \n Orbital Period: 11.9 years \n Rotational Period: 9.93 hours \n Axis Tilt: 3.1 \n Average Surface Temperature: 125K \n Composition: H2,H,hydrogen compounds \n Known Moons: 67\nRings: Yes";
+    var saturnInfo= "Average Distance From Sun(AU): 9.54 \n Average Equatorial Radius(km): 60.268 \n Mass: 92.2 \n Average Density: 0.70 \n Orbital Period: 29.5 years \n Rotational Period: 10.6 hours \n Axis Tilt: 26.7 \n Average Surface Temperature: 95K \n Composition: H2,H,hydrogen compounds\n Known Moons: 62 \n Rings: Yes";
+    var uranusInfo= "Average Distance From Sun(AU): 19.2 \n Average Equatorial Radius(km): 25559 \n Mass: 14.5 \n Average Density: 1.32 \n Orbital Period: 83.8 years \n Rotational Period: 17.2 hours \n Axis Tilt: 97.9 \n Average Surface Temperature: 60K \n Composition: H, H2, hydrogen compounds \n Known Moons: 27 \n Rings: Yes";
+    var neptuneInfo= "Average Distance From Sun(AU): 30.01 \n Average Equatorial Radius(km): 24764 \n Mass: 17.1 \n Average Density: 1.64 \n Orbital Period: 165 years \n Rotational Period: 16.1 hours \n Axis Tilt: 29.6 \n Average Surface Temperature: 60K \n Composition: H, H2, hydrogen compounds\n Known Moons: 13 \n Rings: Yes";
+    var plutoInfo= "Average Distance From Sun(AU): 39.5 \n Average Equatorial Radius(km): 1160 \n Mass: 0.0022 \n Average Density: 2.0 \n Orbital Period: 2.48 years \n Rotational Period: 6.39 days \n Axis Tilt: 112.5 \n Average Surface Temperature: 44K \n Composition: Rocks, ices \n Known Moons: 5 \n Rings: No";
+
+
+      
+
+    //var distance={149,77,38,0,55,620,1.195,2.582,4.350,7.5};
+    //var firstRecord={"14th century BC \n 17th century BC \n 0 \n 2nd millenium BC \n BC 7th to 8th centruy \n 8th centruy BC \n March  13th 1781 \n September 23th 1846 \n 18 Febuary 1930"};
+
+
+
+    d3.select("a-scene").append("a-box").attr("id","mainBox").attr("position","0 0 -4").attr("rotation","0 0 0").attr("color","red").attr("opacity",0);
+
+    callTable(planetImages,"0 2 -6", "0 0 0", 4, 8);
+
+     d3.select("#tablePlane").append("a-entity").attr("obj-model","obj: #arrow-obj; mtl: #arrow-mtl").attr("color","darkgoldenrod").attr("scale","0.02 0.04 0.04").attr("position","5 0 0").on("click", rotateBox);
+     d3.select("#tablePlane").append("a-entity").attr("obj-model","obj: #arrow-obj; mtl: #arrow-mtl").attr("rotation", "0 180 0").attr("color","darkgoldenrod").attr("scale","0.02 0.04 0.04").attr("position","-5 0 0").on("click", rotateBackBox);
+
+     d3.select("#tablePlane").append("a-box").attr("rotation","20 0 0").attr("position","0 2.5 0.05").attr("depth",0.2).attr("height",1).attr("width",3).attr("height",1).attr("color","darkgoldenrod").append("a-text").attr("value","Planets").attr("color","white").attr("align","center").attr("position","0 0 0.2");
+
+     d3.select("#mainBox").append("a-box").attr("id","logoTable").attr("position","0 2 8").attr("rotation","180 0 0").attr("color","purple").attr("opacity",0.25).attr("height",4).attr("width",8).attr("depth",0.2).append("a-entity").attr("obj-model","obj: #logo-obj; mtl: #logo-mtl").attr("rotation", "0 0 180").attr("scale","0.1 0.1 0.1").attr("position","0 0 0");
+
+     d3.select("#logoTable").append("a-entity").attr("obj-model","obj: #arrow-obj; mtl: #arrow-mtl").attr("color","darkgoldenrod").attr("scale","0.02 0.04 0.04").attr("position","-5 0 0").on("click", rotateBox).attr("rotation", "0 180 0");
+     d3.select("#logoTable").append("a-entity").attr("obj-model","obj: #arrow-obj; mtl: #arrow-mtl").attr("rotation", "0 0 0").attr("color","darkgoldenrod").attr("scale","0.02 0.04 0.04").attr("position","5 0 0").on("click", rotateBackBox);
+
+    </script>
+
+     <a-entity light="type: point; color: white; intensity: 1" position="0 -3 0"></a-entity>
+
+    <a-sky src="#starfield" material="color:#FFF;shader:flat;src:#starfield" geometry="primitive:sphere;radius:5000;segmentsWidth:64;segmentsHeight:64" scale="-1 1 1"></a-sky>
+    
+
+    </a-scene>
+  </body>
+  </html>

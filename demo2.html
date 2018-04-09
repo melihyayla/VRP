@@ -1,0 +1,207 @@
+<html>
+  <head>
+    <title>Deneme</title>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script Src="demo.js"></script>
+  </head>
+  <body>
+    <a-scene>
+
+    <a-assets>
+      <img id="sunimg" src="data/sun.jpg">
+      <img id="mercuryimg" src="data/mercury.jpg">
+      <img id="venusimg" src="data/venus.jpg">
+      <img id="earthimg" src="data/earth3.jpg">
+      <img id="marsimg" src="data/mars.jpg">
+      <img id="jupiterimg" src="data/jupiter.jpg">
+      <img id="saturnimg" src="data/saturn.jpg">
+      <img id="uranusimg" src="data/uranus.jpg">
+      <img id="neptuneimg" src="data/neptune.jpg">
+      <img id="plutoimg" src="data/pluto.png">
+      <img id="moonimg" src="data/moon.jpg">
+      <img id="sring" src="data/sRing.png">
+      <img id="starfield" src="data/starfield.jpg">
+    </a-assets>
+
+    
+      <a-camera><a-cursor color ="red" scale="0.5 0.5 0.5"> </a-cursor></a-camera>
+      <a-entity camera look-controls wasd-controls></a-entity>
+     
+     <a-assets>
+     <a-asset-item id="rocket-obj" src ="rocketim4.obj"></a-asset-item>
+     <a-asset-item id="rocket-mtl" src ="rocketim4.mtl"></a-asset-item>
+     </a-assets>
+
+     
+
+  
+    <script type="text/javascript">
+
+      var planetImages  = ["mercury","venus","earth","mars","jupiter","saturn","uranus","neptune","pluto"];
+      var escapeVelocity =["15.300 km/hour","37.296 km/hour","40.283 km/hour","18.108 km/hour","216.720 km/hour","129.923 km/hour","76.968 km/hour","84.815 km/hour","4.428 km/hour"];
+      var velocity = [9.3,23.17,25.031,11.25,134.664,80.731, 47.826, 52.706, 6];
+      
+      var x = -15;
+
+
+
+    d3.select("a-scene").append("a-box").attr("id", "table").attr("position","0 5 -12").attr("height",2).attr("width",6).attr("depth","0.1").attr("color","purple").attr("opacity",0);
+
+    d3.select("#table").append("a-box").attr("id","startButton").attr("position","-1.5 -0.25 0.1").attr("height",0.5).attr("width",2).attr("depth",0.1).attr("color","purple").attr("metalness",0.5).attr("opacity","0.1");
+
+    d3.select("#startButton").append("a-text").attr("id","startText").attr("value","Start").attr("position","0 0 0.1").attr("color","white").attr("align","center");
+
+     d3.select("#table").append("a-box").attr("id","resetButton").attr("position","1.5 -0.25 0.1").attr("height",0.5).attr("width",2).attr("depth",0.1).attr("color","purple").attr("metalness",0.5).attr("opacity","0.1");
+
+    d3.select("#resetButton").append("a-text").attr("id","resetText").attr("value","Reset").attr("position","0 0 0.1").attr("color","white").attr("align","center");
+
+    d3.select("#table").append("a-text").attr("value","Escape Velocity").attr("position","0 0.5 0.05").attr("color","white").attr("align","center").attr("scale","2 1 1");
+     
+
+      for (var i=0; i<9 ;i++){
+
+
+         d3.select("a-scene").append("a-sphere").attr("id",""+planetImages[i]+"obj").attr("radius", 2).attr("src","#" + planetImages[i] + "img").attr("position", x+" 2 -20").attr("scale","0.65 0.5 0.5").attr("velocity", velocity[i]);
+
+         d3.select("#"+planetImages[i]+"obj").append("a-text").attr("position", "0 -4 0").attr("value",planetImages[i].toUpperCase()+"\n \n"+escapeVelocity[i]).attr("scale","3 3 1").attr("color","white").attr("align","center");
+
+     if(i<8)
+       x= x+4;   
+      
+      }
+
+
+      d3.select("#saturnobj").append("a-ring").attr("radius-outer",1.7).attr("radius-inner",1).attr("src","#sring").attr("rotation","-60 0 0").attr("position","0 0 0").attr("scale","1.25 1.25 1.25").attr("opacity",1);
+       d3.select("#saturnobj").append("a-ring").attr("radius-outer",2.2).attr("radius-inner",2).attr("src","#sring").attr("rotation","-60 0 0").attr("position","0 0 0").attr("scale","1.25 1.25 1.25").attr("metalness",0.5);
+
+      d3.select("#neptuneobj").append("a-ring").attr("radius-outer",2.2).attr("radius-inner",2).attr("src","#neptune").attr("rotation","-60 0 0").attr("position","0 0 0").attr("scale","1.25 1.25 1.25").attr("opacity",1);
+
+
+      for(var i = 0 ; i<9 ; i++){
+       d3.select("#"+planetImages[i]+"obj").append("a-entity").attr("id","rocket"+i).attr("obj-model","obj: #rocket-obj; mtl: #rocket-mtl").attr("position", "-0.75 2 0").attr("scale","0.05 0.05 0.05").attr("rotation", "0 0 0");
+      }
+      
+     // d3.selectAll("a-sphere").append("a-entity").attr("id","rocket").attr("obj-model","obj: #rocket-obj; mtl: #rocket-mtl").attr("position", "-0.75 2 0").attr("scale","0.05 0.05 0.05").attr("rotation", "0 0 0");
+
+
+      var action = d3.selectAll("#rocket")
+          .on("click", moveBox);
+
+        function moveBox () {
+          // Select the box
+          var box = d3.select(this);
+
+          var parent = d3.select(this.parentNode);
+
+          var velocity = parent.attr("velocity");
+               
+               console.log("velocity", velocity);
+          // Setup a transition
+          box.transition()
+             .duration(75000/velocity)
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("position", function() {
+               // Get current position
+             
+
+
+                var currentPosition = box.attr("position");  // {"x": 0, "y": 1, "z": 0}
+               // Return an interpolater from current to next position
+               return d3.interpolate(currentPosition, {"x": currentPosition.x, "y": 100, "z": 0 } );
+             });
+           }
+
+
+        d3.select("#startButton").on("click", startAction);
+
+        function startAction () {
+          // Select the box
+            for (var i = 0; i<9; i++) {
+
+            var rocket = d3.select("#rocket"+i);
+             rocket.transition()
+             .duration(75000/velocity[i])
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("position", function() {
+               // Get current position
+             
+              var currentPosition = rocket.attr("position");  // {"x": 0, "y": 1, "z": 0}
+               // Return an interpolater from current to next position
+               return d3.interpolate(currentPosition, {"x": currentPosition.x , "y": 50, "z": 0 } );
+             });
+
+
+          }
+
+        }
+
+
+        d3.select("#resetButton").on("click", resetAction);
+
+        function resetAction () {
+          for (var i = 0; i<9; i++) {
+
+            var rocket = d3.select("#rocket"+i);
+             rocket.transition()
+             .duration(700)
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("position", function() {
+               // Get current position
+             
+              var currentPosition = rocket.attr("position");  // {"x": 0, "y": 1, "z": 0}
+               // Return an interpolater from current to next position
+               return d3.interpolate(currentPosition, {"x": currentPosition.x , "y": 2, "z": 0 } );
+             });
+        }
+      }
+  
+      d3.select("#table").selectAll("a-box").on("mouseenter",decreaseOpacity).on("mouseleave",increaseOpacity);
+
+      
+
+        function decreaseOpacity () {
+          // Select the box
+          var box = d3.select(this);
+
+          box.transition()
+             .duration(750)
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("opacity", function() {
+              var opacity = box.attr("opacity");
+               return d3.interpolate(opacity,0.5);
+             });
+           }
+
+
+          function increaseOpacity () {
+          // Select the box
+          var box = d3.select(this);
+
+          box.transition()
+             .duration(750)
+             // attrTween is needed for smooth transitions (IDK why)
+             .attrTween("opacity", function() {
+              var opacity = box.attr("opacity");
+               return d3.interpolate(opacity,0.1);
+             });
+           }
+           
+
+
+      
+
+
+
+
+
+    </script>
+
+     <a-entity light="type: point; color: softyellow; intensity: 1" position="0 5-5"></a-entity>
+
+    <a-sky src="#starfield" material="color:#FFF;shader:flat;src:#starfield" geometry="primitive:sphere;radius:5000;segmentsWidth:64;segmentsHeight:64" scale="-1 1 1"></a-sky>
+    
+
+    </a-scene>
+  </body>
+  </html>
